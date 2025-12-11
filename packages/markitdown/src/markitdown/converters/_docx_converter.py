@@ -80,9 +80,9 @@ class DocxConverter(HtmlConverter):
         html = mammoth.convert_to_html(
             pre_process_stream,
             style_map=style_map,
-            ignore_tracked_changes=True
+            ignore_tracked_changes=False
         ).value
-        
+
         return self._html_converter.convert_string(
             html,
             **kwargs,
