@@ -122,5 +122,39 @@ class _CustomMarkdownify(markdownify.MarkdownConverter):
             return "[x] " if el.has_attr("checked") else "[ ] "
         return ""
 
+    def convert_ins(
+        self,
+        el: Any,
+        text: str,
+        convert_as_inline: Optional[bool] = False,
+        **kwargs,
+    ) -> str:
+        """Preserve <ins> tags in the output with author and date attributes."""
+        attrs = []
+        if el.get("author"):
+            attrs.append('author="%s"' % el.get("author"))
+        if el.get("date"):
+            attrs.append('date="%s"' % el.get("date"))
+        
+        attr_str = " " + " ".join(attrs) if attrs else ""
+        return "<ins%s>%s</ins>" % (attr_str, text)
+
+    def convert_del(
+        self,
+        el: Any,
+        text: str,
+        convert_as_inline: Optional[bool] = False,
+        **kwargs,
+    ) -> str:
+        """Preserve <del> tags in the output with author and date attributes."""
+        attrs = []
+        if el.get("author"):
+            attrs.append('author="%s"' % el.get("author"))
+        if el.get("date"):
+            attrs.append('date="%s"' % el.get("date"))
+        
+        attr_str = " " + " ".join(attrs) if attrs else ""
+        return "<del%s>%s</del>" % (attr_str, text)
+
     def convert_soup(self, soup: Any) -> str:
         return super().convert_soup(soup)  # type: ignore
